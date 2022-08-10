@@ -37,7 +37,7 @@ services:
       dockerfile: docker/nodejs.Dockerfile
     volumes:
       - ./frontend:/frontend
-      - '/app/node_modules'
+      - '/frontend/node_modules'
     ports:
       - "3000:3000"
     stdin_open: true
