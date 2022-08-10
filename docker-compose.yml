@@ -10,7 +10,9 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  web:
+
+  django:
+    container_name: django
     restart: unless-stopped
     build:
       context: ./
@@ -26,3 +28,21 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+
+  nodejs:
+    container_name: nodejs
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: docker/nodejs.Dockerfile
+    volumes:
+      - ./frontend:/frontend
+      - '/app/node_modules'
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
+    depends_on:
+      - django

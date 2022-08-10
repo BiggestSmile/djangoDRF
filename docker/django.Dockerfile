@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+#inside backendfolder run: 'sudo docker-compose run web django-admin startproject config .'
 FROM python:3
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1

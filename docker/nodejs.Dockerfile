@@ -1,12 +1,10 @@
-FROM node:14.9.0 AS build-step
-
-WORKDIR /build
-COPY package.json package-lock.json ./
+#sudo docker-compose run web django-admin startproject config .
+#sudo docker-compose run nodejs npx create-react-app frontend
+#sudo docker-compose run nodejs npm init react-app frontend
+FROM node:14.9
+WORKDIR /frontend
+COPY ./frontend/package*.json ./
 RUN npm install
-
-COPY . .
-RUN npm run build
-
-FROM nginx:1.18-alpine
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build-step /build/build /frontend/build
+COPY ./frontend/ /frontend/
+EXPOSE 3000
+CMD [ "npm", "start" ]
