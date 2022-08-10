@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
     build:
       context: ./
-      dockerfile: docker/web.Dockerfile
+      dockerfile: docker/django.Dockerfile
     command: python manage.py runserver 0.0.0.0:8008
     volumes:
       - ./backend:/backend
