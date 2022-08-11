@@ -1,13 +1,15 @@
 import React from 'react'
 import axios from 'axios'
 import AuthorList from './components/AuthorList.js'
+import CustomUserList from './components/CustomUserList.js'
 
 class App extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            'authors': []
+            'authors': [],
+            'customUsers': [],
         }
     }
 
@@ -18,7 +20,19 @@ class App extends React.Component {
                 const authors = response.data
                 this.setState(
                     {
-                        'authors': authors
+                        'authors': authors,
+                    }
+                )
+            })
+            .catch(error => console.log(error))
+
+        axios
+            .get('http://127.0.0.1:8008/api/custom-users/')
+            .then(response => {
+                const customUsers = response.data
+                this.setState(
+                    {
+                        'customUsers': customUsers,
                     }
                 )
             })
@@ -28,7 +42,14 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <AuthorList authors={this.state.authors}/>
+                <div>
+                    <AuthorList authors={this.state.authors}/>
+                    {/*<CustomUserList customUsers={this.state.customUsers}/>*/}
+                </div>
+                <div>
+                    {/*<AuthorList authors={this.state.authors}/>*/}
+                    <CustomUserList customUsers={this.state.customUsers}/>
+                </div>
             </div>
         )
     }
