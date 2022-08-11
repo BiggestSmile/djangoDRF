@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import AuthorList from './components/AuthorList.js'
 import CustomUserList from './components/CustomUserList.js'
+import Footer from './components/Footer';
 
 class App extends React.Component {
     constructor(props) {
@@ -43,13 +44,16 @@ class App extends React.Component {
         return (
             <div>
                 <div>
-                    <AuthorList authors={this.state.authors}/>
-                    {/*<CustomUserList customUsers={this.state.customUsers}/>*/}
+                    <span>
+                        <AuthorList authors={this.state.authors}/>
+                        {/*<CustomUserList customUsers={this.state.customUsers}/>*/}
+                    </span>
+                    <span>
+                        {/*<AuthorList authors={this.state.authors}/>*/}
+                        <CustomUserList customUsers={this.state.customUsers}/>
+                    </span>
                 </div>
-                <div>
-                    {/*<AuthorList authors={this.state.authors}/>*/}
-                    <CustomUserList customUsers={this.state.customUsers}/>
-                </div>
+                <Footer/>
             </div>
         )
     }
