@@ -5,7 +5,6 @@ from django.contrib import admin
 # Register your models here.
 # admin.site.register(Project, ToDo)
 
-
 # class ToDoAdmin(admin.ModelAdmin):
 #     list_display = ['name', 'text', 'project', 'user']
 #     model = ToDo
