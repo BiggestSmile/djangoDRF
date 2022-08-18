@@ -3,7 +3,8 @@ from todo.models import Project, ToDo
 from django.contrib import admin
 
 # Register your models here.
-# admin.site.register(Project, ToDo)
+admin.site.register(Project)
+admin.site.register(ToDo)
 
 # class ToDoAdmin(admin.ModelAdmin):
 #     list_display = ['name', 'text', 'project', 'user']
