@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 
 import './App.css';
 import Navbar from './components/Navbar';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Home from './pages';
 import About from './pages/about';
 import Events from './pages/events';
@@ -29,7 +29,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8008/api/authors/')
             .then(response => {
-                const authors = response.data
+                const authors = response.data.results
                 this.setState(
                     {
                         'authors': authors,
@@ -41,7 +41,7 @@ class App extends React.Component {
         axios
             .get('http://127.0.0.1:8008/api/custom-users/')
             .then(response => {
-                const customUsers = response.data
+                const customUsers = response.data.results
                 this.setState(
                     {
                         'customUsers': customUsers,
