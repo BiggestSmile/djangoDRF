@@ -69,14 +69,17 @@ class App extends React.Component {
                     </Router>
                 </div>
                 <div>
+                    <div>==============================================================================</div>
                     <span>
                         <AuthorList authors={this.state.authors}/>
                         {/*<CustomUserList customUsers={this.state.customUsers}/>*/}
                     </span>
+                    <div>==============================================================================</div>
                     <span>
                         {/*<AuthorList authors={this.state.authors}/>*/}
                         <CustomUserList customUsers={this.state.customUsers}/>
                     </span>
+                    <div>==============================================================================</div>
                 </div>
                 <Footer/>
             </div>

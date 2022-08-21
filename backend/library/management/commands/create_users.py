@@ -9,6 +9,7 @@ from random import randint
 class Command(BaseCommand):
     """
     python manage.py create_users 10
+    python manage.py create_users 10 -s True
     """
     help = 'Create random users'
 
