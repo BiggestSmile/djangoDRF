@@ -20,19 +20,29 @@ const CustomUserItem = ({customUser}) => {
 const CustomUserList = ({customUsers}) => {
     return (
         <table>
-            <th>
-                Username
-            </th>
-            <th>
-                First name
-            </th>
-            <th>
-                Last name
-            </th>
-            <th>
-                Email
-            </th>
-            {customUsers.map((customUser) => <CustomUserItem customUser={customUser}/>)}
+
+            <thead>
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    First name
+                </th>
+                <th>
+                    Last name
+                </th>
+                <th>
+                    Email
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+                {/*{customUsers.map((customUser) => <CustomUserItem customUser={customUser}/>)}*/}
+                {customUsers.map((customUser) => <CustomUserItem key={customUser.email} customUser={customUser}/>)}
+            </tbody>
+
         </table>
     )
 }
