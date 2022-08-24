@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from library.views import AuthorModelViewSet, CustomUserModelViewSet
 from todo.views import ProjectModelViewSet, ToDoUserModelViewSet
+from rest_framework.authtoken import views
 
 router = DefaultRouter()
 router.register('custom-users', CustomUserModelViewSet)
@@ -27,5 +28,6 @@ router.register('todos', ToDoUserModelViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api-token-auth/', views.obtain_auth_token),
 ]
