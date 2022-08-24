@@ -4,7 +4,7 @@ from todo.models import Project, ToDo
 
 
 class ProjectModelSerializer(ModelSerializer):
-    users = CustomUserModelSerializer(many=True, read_only=True)
+    # users = CustomUserModelSerializer(many=True, read_only=True)
 
     class Meta:
         model = Project
@@ -13,8 +13,8 @@ class ProjectModelSerializer(ModelSerializer):
 
 
 class ToDoModelSerializer(ModelSerializer):
-    project = ProjectModelSerializer(many=False, read_only=True)
-    user = CustomUserModelSerializer(many=False, read_only=True)
+    # project = ProjectModelSerializer(many=False, read_only=True)
+    # user = CustomUserModelSerializer(many=False, read_only=True)
 
     class Meta:
         model = ToDo
