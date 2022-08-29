@@ -1,10 +1,20 @@
+// import {
+//     Nav,
+//     NavLink,
+//     Bars,
+//     NavMenu,
+//     NavBtn,
+//     NavBtnLink,
+// } from './components/Navbar/NavbarElements';
+//
+
 import React from 'react'
 import axios from 'axios'
-import AuthorList from './components/AuthorList.js'
 import CustomUserList from './components/CustomUserList.js'
 import CustomProjectList from "./components/CustomProjectList";
 import CustomTodoList from "./components/CustomTodoList";
 import ProjectTodoList from "./components/CustomProjectTodoList";
+import LoginForm from './components/LoginForm';
 import Footer from './components/Footer';
 
 import './App.css';
@@ -13,7 +23,7 @@ import {HashRouter, BrowserRouter, Route, Routes, Link, Navigate, useLocation} f
 
 
 const NotFound = () => {
-    var {pathname} = useLocation()
+    let {pathname} = useLocation()
 
     return (
         <div>
@@ -24,6 +34,7 @@ const NotFound = () => {
 
 
 class App extends React.Component {
+    Undefined;
     constructor(props) {
         super(props)
 
@@ -31,12 +42,65 @@ class App extends React.Component {
             'customUsers': [],
             'projects': [],
             'todos': [],
+            'token': '',
         }
     }
 
-    componentDidMount() {
+    obtainAuthToken(login, password) {
         axios
-            .get('http://127.0.0.1:8008/api/custom-users/')
+            .post('http://127.0.0.1:8008/api-token-auth/', {
+                'username': login,
+                'password': password
+            })
+            .then(response => {
+                const token = response.data.token
+                console.log('token:', token)
+                localStorage.setItem('token', token)
+                this.setState({
+                    'token': token
+                }, this.getData)
+            })
+            .catch(error => console.log(error))
+    }
+
+    isAuth() {
+        console.log(this.state.token)
+        console.log(!!this.state.token)
+        return !!this.state.token
+        // return this.state.token != ''
+    }
+
+    componentDidMount() {
+        let token = localStorage.getItem('token')
+        this.setState({
+            'token': token
+        }, this.getData)
+    }
+
+    // getHeaders() {
+    //     if (this.isAuth()) {
+    //         return {
+    //             'Authorization': 'Token ' + this.state.token
+    //         }
+    //     }
+    //     return {}
+    // }
+
+    getHeaders() {
+        let headers = {
+            'Content-Type': 'application/json'
+        }
+        if (this.isAuth()) {
+            headers['Authorization'] = 'Token ' + this.state.token
+        }
+        return headers
+    }
+
+    getData() {
+        let headers = this.getHeaders()
+
+        axios
+            .get('http://127.0.0.1:8008/api/custom-users/', {headers})
             .then(response => {
                 const customUsers = response.data
                 this.setState(
@@ -45,10 +109,13 @@ class App extends React.Component {
                     }
                 )
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({'customUsers': []})
+            })
 
         axios
-            .get('http://127.0.0.1:8008/api/projects/')
+            .get('http://127.0.0.1:8008/api/projects/', {headers})
             .then(response => {
                 const projects = response.data
                 this.setState(
@@ -57,10 +124,13 @@ class App extends React.Component {
                     }
                 )
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({'projects': []})
+            })
 
         axios
-            .get('http://127.0.0.1:8008/api/todos/')
+            .get('http://127.0.0.1:8008/api/todos/', {headers})
             .then(response => {
                 const todos = response.data
                 this.setState(
@@ -69,7 +139,17 @@ class App extends React.Component {
                     }
                 )
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                this.setState({'todos': []})
+            })
+    }
+
+    logOut() {
+        localStorage.setItem('token', '')
+        this.setState({
+            'token': '',
+        }, this.getData)
     }
 
     render() {
@@ -77,16 +157,20 @@ class App extends React.Component {
             <div>
                 <div>
                     <BrowserRouter>
-                        <Navbar />
+                        <Navbar isAuth={this.isAuth()} logOut={() => this.logOut()}/>
+                        {/*{this.isAuth() ? <NavBtn onClick={() => this.logOut()}>Logout</NavBtn> : <NavBtnLink to='/login'>Login</NavBtnLink> }*/}
                         <Routes>
-                            <Route exact path='/' element={<Navigate to='/customUsers' />} />
-                            <Route exact path='/todos' element={<CustomTodoList todos={this.state.todos}/>} />
-                            <Route exact path='/customUsers' element={<CustomUserList customUsers={this.state.customUsers}/>} />
+                            <Route exact path='/' element={<Navigate to='/customUsers'/>}/>
+                            <Route exact path='/todos' element={<CustomTodoList todos={this.state.todos}/>}/>
+                            <Route exact path='/customUsers'
+                                   element={<CustomUserList customUsers={this.state.customUsers}/>}/>
+                            <Route exact path='/login' element={<LoginForm
+                                obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)}/>}/>
                             <Route path='/projects'>
-                                <Route index element={<CustomProjectList projects={this.state.projects}/>} />
-                                <Route path=':projectId' element={<ProjectTodoList todos={this.state.todos}/>} />
+                                <Route index element={<CustomProjectList projects={this.state.projects}/>}/>
+                                <Route path=':projectId' element={<ProjectTodoList todos={this.state.todos}/>}/>
                             </Route>
-                            <Route path='*' element={<NotFound />} />
+                            <Route path='*' element={<NotFound/>}/>
                         </Routes>
                     </BrowserRouter>
                 </div>
