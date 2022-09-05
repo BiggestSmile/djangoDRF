@@ -45,3 +45,31 @@ class TestProjectModelViewSet(TestCase):
         self.assertEqual(project.repo_link, 'https://TestProject.git.com')
         # self.assertEqual(project.users, admin)
         client.logout()
+
+
+class TestToDoUserModelViewSet(APITestCase):
+    def test_get_list(self):
+        admin = CustomUser.objects.create_superuser('admin', 'admin@admin.com',
+                                                    'admin123456')
+        self.client.login(username='admin', password='admin123456')
+        response = self.client.get('/api/todos/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_edit_mixer(self):
+        todo = mixer.blend(ToDo, user__name='Admin666')
+        admin = CustomUser.objects.create_superuser('admin', 'admin@admin.com',
+                                                    'admin123456')
+        self.client.login(username='admin', password='admin123456')
+        response = self.client.put(f'/api/todos/{todo.id}/',
+                                   {
+                                       'name': 'TEST_NAME',
+                                       'text': 'TEST_TEXT',
+                                       'project': todo.project.id,
+                                       'user': todo.user.id,
+                                       'is_active': True,
+                                       'created_at': todo.created_at,
+                                       'updated_at': todo.updated_at,
+                                   })
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        todo = ToDo.objects.get(id=todo.id)
+        self.assertEqual(todo.name, 'TEST_NAME')
