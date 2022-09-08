@@ -30,10 +30,9 @@ router = DefaultRouter()
 # router.register('authors', AuthorModelViewSet)
 router.register('projects', ProjectModelViewSet)
 router.register('todos', ToDoUserModelViewSet)
-# router.register('custom-users/1.1', include('library.urls', namespace='1.1'))
-# router.register('custom-users/1.2', include('library.urls', namespace='1.2'))
 router.register('custom-users/1.1', CustomUserModelViewSet, basename='xxx1.1')
 router.register('custom-users/1.2', CustomUserModelViewSetV1V2, basename='xxx1.2')
+# router.register(r'custom-users-xxx/(?P<version>\d\.\d)', CustomUserModelViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
