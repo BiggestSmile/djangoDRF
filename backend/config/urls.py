@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from library.views import AuthorModelViewSet, CustomUserModelViewSet
+from library.views import AuthorModelViewSet, CustomUserModelViewSet, CustomUserModelViewSetV1V2
 from todo.views import ProjectModelViewSet, ToDoUserModelViewSet
 from rest_framework.authtoken import views
 from rest_framework_simplejwt.views import (
@@ -26,10 +26,14 @@ from rest_framework_simplejwt.views import (
 )
 
 router = DefaultRouter()
-router.register('custom-users', CustomUserModelViewSet)
-router.register('authors', AuthorModelViewSet)
+# router.register('custom-users', CustomUserModelViewSet)
+# router.register('authors', AuthorModelViewSet)
 router.register('projects', ProjectModelViewSet)
 router.register('todos', ToDoUserModelViewSet)
+# router.register('custom-users/1.1', include('library.urls', namespace='1.1'))
+# router.register('custom-users/1.2', include('library.urls', namespace='1.2'))
+router.register('custom-users/1.1', CustomUserModelViewSet, basename='xxx1.1')
+router.register('custom-users/1.2', CustomUserModelViewSetV1V2, basename='xxx1.2')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,4 +42,6 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    # path('api/custom-users/1.1/', include('library.urls', namespace='1.1')),
+    # path('api/custom-users/1.2/', include('library.urls', namespace='1.2')),
 ]
