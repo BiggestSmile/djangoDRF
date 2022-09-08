@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_filters',
     'library',
     'todo',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
