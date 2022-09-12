@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'library',
     'todo',
     'drf_yasg',
+    'graphene_django',
 ]
 
 REST_FRAMEWORK = {
@@ -169,3 +170,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'library.CustomUser'
+
+GRAPHENE = {
+    # "SCHEMA": "library.schema.schema",
+    "SCHEMA": "todo.schema.schema",
+}
