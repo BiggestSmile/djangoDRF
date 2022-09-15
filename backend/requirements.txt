@@ -6,3 +6,5 @@ django-filter~=22.1
 djangorestframework-simplejwt~=5.2.0
 mixer~=7.2.2
 drf-yasg~=1.21.3
+graphene-django~=2.15.0
+graphene
