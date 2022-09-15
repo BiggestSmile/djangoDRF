@@ -29,7 +29,6 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from graphene_django.views import GraphQLView
 
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Library",
@@ -47,6 +46,7 @@ router = DefaultRouter()
 # router.register('authors', AuthorModelViewSet)
 router.register('projects', ProjectModelViewSet)
 router.register('todos', ToDoUserModelViewSet)
+router.register('custom-users', CustomUserModelViewSet, basename='default')
 router.register('custom-users/1.1', CustomUserModelViewSet, basename='xxx1.1')
 router.register('custom-users/1.2', CustomUserModelViewSetV1V2, basename='xxx1.2')
 # router.register(r'custom-users-xxx/(?P<version>\d\.\d)', CustomUserModelViewSet)
