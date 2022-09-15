@@ -215,7 +215,7 @@ class App extends React.Component {
                                 }/>
                                 <Route path=':projectId' element={<ProjectTodoList todos={this.state.todos}/>}/>
                             </Route>
-                            <Route exact path='/create_project' element={<ProjectForm users={this.state.users}
+                            <Route exact path='/create_project' element={<ProjectForm users={this.state.customUsers}
                                                                                       createProject={(name, repo_link, users) => this.createProject(name, repo_link, users)}/>}/>
                             <Route path='*' element={<NotFound/>}/>
                         </Routes>

@@ -19,7 +19,7 @@ class ProjectForm extends React.Component {
 
     handleRepoChange(event) {
         this.setState({
-            [event.target.repo_link]: event.target.value
+            [event.target.name]: event.target.value
         })
     }
 
@@ -53,7 +53,7 @@ class ProjectForm extends React.Component {
                 <form onSubmit={(event) => this.handleSubmit(event)}>
                     <input type="text" name="name" placeholder="name" value={this.state.name}
                            onChange={(event) => this.handleNameChange(event)}/>
-                    <input type="text" name="repo_link" placeholder="repo_link" value={this.state.repo_link}
+                    <input type="url" name="repo_link" placeholder="repo_link" value={this.state.repo_link}
                            onChange={(event) => this.handleRepoChange(event)}/>
                     <select multiple onChange={(event) => this.handleUsersSelect(event)}>
                         {this.props.users.map((user) => <option
