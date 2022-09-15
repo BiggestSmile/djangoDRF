@@ -1,3 +1,5 @@
+import {Link} from "react-router-dom";
+
 const CustomTodoItem = ({todo, deleteTodo}) => {
     return (
         <tr>
@@ -22,9 +24,9 @@ const CustomTodoItem = ({todo, deleteTodo}) => {
 
 const CustomTodoList = ({todos, deleteTodo}) => {
     return (
-        <table>
-
-            <thead>
+        <div>
+            <table>
+                <thead>
                 <tr>
                     <th>
                         name
@@ -40,13 +42,13 @@ const CustomTodoList = ({todos, deleteTodo}) => {
                     </th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
-            {todos.map((todo) => <CustomTodoItem key={todo.id} todo={todo} deleteTodo={deleteTodo}/>)}
-            </tbody>
-
-
-        </table>
+                </thead>
+                <tbody>
+                {todos.map((todo) => <CustomTodoItem key={todo.id} todo={todo} deleteTodo={deleteTodo}/>)}
+                </tbody>
+            </table>
+            <Link to='/create_todo'>Create</Link>
+        </div>
     )
 }
 

@@ -186,6 +186,29 @@ class App extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    createTodo(name, text, is_active, project, user) {
+//        console.log(title, authors)
+
+        let headers = this.getHeaders()
+
+        axios
+            .post('http://127.0.0.1:8008/api/todos/', {
+                'name': name,
+                'text': text,
+                'is_active': is_active,
+                'project': project,
+                'user': user
+            }, {headers})
+            .then(response => {
+                this.setState({
+                    'redirect': '/todos'
+                }, this.getData)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     logOut() {
         localStorage.setItem('token', '')
         this.setState({
@@ -217,6 +240,9 @@ class App extends React.Component {
                             </Route>
                             <Route exact path='/create_project' element={<ProjectForm users={this.state.customUsers}
                                                                                       createProject={(name, repo_link, users) => this.createProject(name, repo_link, users)}/>}/>
+                            <Route exact path='/create_todo'
+                                   element={<TodoForm users={this.state.customUsers} projects={this.state.projects}
+                                                      createTodo={(name, text, is_active, project, user) => this.createTodo(name, text, is_active, project, user)}/>}/>
                             <Route path='*' element={<NotFound/>}/>
                         </Routes>
                     </BrowserRouter>
