@@ -44,7 +44,9 @@ const CustomProjectList = ({projects, deleteProject}) => {
                                                               deleteProject={deleteProject}/>)}
                 </tbody>
             </table>
-            <Link to='/create_project'>Create</Link>
+            <Link to='/create_project'>
+                <button>Create</button>
+            </Link>
         </div>
     )
 }

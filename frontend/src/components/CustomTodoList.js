@@ -47,7 +47,9 @@ const CustomTodoList = ({todos, deleteTodo}) => {
                 {todos.map((todo) => <CustomTodoItem key={todo.id} todo={todo} deleteTodo={deleteTodo}/>)}
                 </tbody>
             </table>
-            <Link to='/create_todo'>Create</Link>
+            <Link to='/create_todo'>
+                <button>Create</button>
+            </Link>
         </div>
     )
 }
