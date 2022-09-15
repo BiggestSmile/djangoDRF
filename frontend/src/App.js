@@ -132,6 +132,7 @@ class App extends React.Component {
 
         axios
             .get('http://127.0.0.1:8008/api/todos/', {headers})
+            // .get('http://localhost:8008/api/todos/?project=&created_at=&is_active=true', {headers})
             .then(response => {
                 const todos = response.data
                 this.setState(
@@ -154,6 +155,13 @@ class App extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    deleteTodo(todoId) {
+        const headers = this.getHeaders()
+        axios.delete(`http://127.0.0.1:8008/api/todos/${todoId}`, {headers})
+            .then(response => {
+                this.setState({todos: this.state.todos.filter((item) => item.id !== todoId)})
+            }).catch(error => console.log(error))
+    }
 
     logOut() {
         localStorage.setItem('token', '')
@@ -171,14 +179,17 @@ class App extends React.Component {
                         {/*{this.isAuth() ? <NavBtn onClick={() => this.logOut()}>Logout</NavBtn> : <NavBtnLink to='/login'>Login</NavBtnLink> }*/}
                         <Routes>
                             <Route exact path='/' element={<Navigate to='/customUsers'/>}/>
-                            <Route exact path='/todos' element={<CustomTodoList todos={this.state.todos}/>}/>
+                            <Route exact path='/todos' element={<CustomTodoList todos={this.state.todos} deleteTodo={(todoId) => this.deleteTodo(todoId)}/>}/>
                             <Route exact path='/customUsers'
                                    element={<CustomUserList customUsers={this.state.customUsers}/>}/>
                             <Route exact path='/login' element={<LoginForm
                                 obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)}/>}/>
                             <Route path='/projects'>
-                                <Route index element={<CustomProjectList projects={this.state.projects}
-                                                                         deleteProject={(projectId) => this.deleteProject(projectId)}/>}/>
+                                <Route index element={
+                                    <CustomProjectList projects={this.state.projects}
+                                                       deleteProject={(projectId) => this.deleteProject(projectId)}
+                                    />
+                                }/>
                                 <Route path=':projectId' element={<ProjectTodoList todos={this.state.todos}/>}/>
                             </Route>
                             <Route path='*' element={<NotFound/>}/>

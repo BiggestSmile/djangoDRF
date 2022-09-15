@@ -1,4 +1,4 @@
-const CustomTodoItem = ({todo}) => {
+const CustomTodoItem = ({todo, deleteTodo}) => {
     return (
         <tr>
             <td>
@@ -13,11 +13,14 @@ const CustomTodoItem = ({todo}) => {
             <td>
                 {todo.user}
             </td>
+            <td>
+                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            </td>
         </tr>
     )
 }
 
-const CustomTodoList = ({todos}) => {
+const CustomTodoList = ({todos, deleteTodo}) => {
     return (
         <table>
 
@@ -35,10 +38,11 @@ const CustomTodoList = ({todos}) => {
                     <th>
                         user
                     </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-            {todos.map((todo) => <CustomTodoItem key={todo.id} todo={todo}/>)}
+            {todos.map((todo) => <CustomTodoItem key={todo.id} todo={todo} deleteTodo={deleteTodo}/>)}
             </tbody>
 
 

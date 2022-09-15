@@ -31,11 +31,12 @@ class ProjectModelViewSet(ModelViewSet):
 
 
 class ToDoUserModelViewSet(ModelViewSet):
-    queryset = ToDo.objects.all()
+    # queryset = ToDo.objects.all()
+    queryset = ToDo.objects.filter(is_active=True)
     serializer_class = ToDoModelSerializer
     # pagination_class = ToDoModelViewSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['project', 'created_at']
+    filterset_fields = ['project', 'created_at', 'is_active']
 
     def destroy(self, request, *args, **kwargs):
         entity = self.get_object()
