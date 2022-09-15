@@ -16,6 +16,7 @@ import CustomTodoList from "./components/CustomTodoList";
 import ProjectTodoList from "./components/CustomProjectTodoList";
 import LoginForm from './components/LoginForm';
 import Footer from './components/Footer';
+import ProjectForm from './components/ProjectForm.js'
 
 import './App.css';
 import Navbar from './components/Navbar';
@@ -155,6 +156,27 @@ class App extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    createProject(name, repo_link, users) {
+//        console.log(title, authors)
+
+        let headers = this.getHeaders()
+
+        axios
+            .post('http://127.0.0.1:8008/api/projects/', {
+                'name': name,
+                'repo_link': repo_link,
+                'users': users
+            }, {headers})
+            .then(response => {
+                this.setState({
+                    'redirect': '/projects'
+                }, this.getData)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     deleteTodo(todoId) {
         const headers = this.getHeaders()
         axios.delete(`http://127.0.0.1:8008/api/todos/${todoId}`, {headers})
@@ -192,6 +214,8 @@ class App extends React.Component {
                                 }/>
                                 <Route path=':projectId' element={<ProjectTodoList todos={this.state.todos}/>}/>
                             </Route>
+                            <Route exact path='/create_project' element={<ProjectForm users={this.state.users}
+                                                                                      createProject={(name, repo_link, users) => this.createProject(name, repo_link, users)}/>}/>
                             <Route path='*' element={<NotFound/>}/>
                         </Routes>
                     </BrowserRouter>

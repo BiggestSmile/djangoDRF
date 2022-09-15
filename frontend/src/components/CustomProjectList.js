@@ -22,28 +22,30 @@ const CustomProjectItem = ({project, deleteProject}) => {
 
 const CustomProjectList = ({projects, deleteProject}) => {
     return (
-        <table>
-            <thead>
-            <tr>
-                <th>
-                    name
-                </th>
-                <th>
-                    repo_link
-                </th>
-                <th>
-                    users
-                </th>
-                <th></th>
-            </tr>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>
+                        name
+                    </th>
+                    <th>
+                        repo_link
+                    </th>
+                    <th>
+                        users
+                    </th>
+                    <th></th>
+                </tr>
 
-            </thead>
-            <tbody>
-            {projects.map((project) => <CustomProjectItem key={project.id} project={project}
-                                                          deleteProject={deleteProject}/>)}
-            </tbody>
-
-        </table>
+                </thead>
+                <tbody>
+                {projects.map((project) => <CustomProjectItem key={project.id} project={project}
+                                                              deleteProject={deleteProject}/>)}
+                </tbody>
+            </table>
+            <Link to='/create_project'>Create</Link>
+        </div>
     )
 }
 
