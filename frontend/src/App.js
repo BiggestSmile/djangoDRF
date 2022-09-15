@@ -35,6 +35,7 @@ const NotFound = () => {
 
 class App extends React.Component {
     Undefined;
+
     constructor(props) {
         super(props)
 
@@ -145,6 +146,15 @@ class App extends React.Component {
             })
     }
 
+    deleteProject(projectId) {
+        const headers = this.getHeaders()
+        axios.delete(`http://127.0.0.1:8008/api/projects/${projectId}`, {headers})
+            .then(response => {
+                this.setState({projects: this.state.projects.filter((item) => item.id !== projectId)})
+            }).catch(error => console.log(error))
+    }
+
+
     logOut() {
         localStorage.setItem('token', '')
         this.setState({
@@ -167,7 +177,8 @@ class App extends React.Component {
                             <Route exact path='/login' element={<LoginForm
                                 obtainAuthToken={(login, password) => this.obtainAuthToken(login, password)}/>}/>
                             <Route path='/projects'>
-                                <Route index element={<CustomProjectList projects={this.state.projects}/>}/>
+                                <Route index element={<CustomProjectList projects={this.state.projects}
+                                                                         deleteProject={(projectId) => this.deleteProject(projectId)}/>}/>
                                 <Route path=':projectId' element={<ProjectTodoList todos={this.state.todos}/>}/>
                             </Route>
                             <Route path='*' element={<NotFound/>}/>
