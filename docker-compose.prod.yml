@@ -29,6 +29,9 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - DEBUG=False
+      - DJANGO_ALLOWED_HOSTS='0.0.0.0 localhost 127.0.0.1 [::1] localhost'
+      - SECRET_KEY='django-insecure-e6nvub@78uut_8_roh6xxt=enzh+))h@=&a-jj-ee-@@r)gijf'
     #      - DJANGO_SETTINGS_MODULE = backend.settings.production
     depends_on:
       - db

@@ -28,6 +28,9 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - DEBUG=True
+      - DJANGO_ALLOWED_HOSTS=*
+      - SECRET_KEY=django-insecure-e6nvub@78uut_8_roh6xxt=enzh+))h@=&a-jj-ee-@@r)gijf
     depends_on:
       - db
 
@@ -39,7 +42,7 @@ services:
       dockerfile: docker/nodejs.Dockerfile
     environment:
       - CHOKIDAR_USEPOLLING=true
-#    command: npm start
+    #    command: npm start
     #    command: npm run watch
     volumes:
       - ./frontend:/frontend
