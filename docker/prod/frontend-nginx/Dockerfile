@@ -1,6 +1,5 @@
-FROM node:14.9
-
-# builder
+# build environment
+FROM node:14.9 as build
 WORKDIR /frontend
 COPY ./frontend/package*.json ./
 RUN npm install
@@ -8,7 +7,7 @@ RUN npm install npm-watch axios bootstrap react-bootstrap redux react-redux redu
 COPY ./frontend/ /frontend/
 RUN npm run build
 
-# prod
+# production environment
 FROM nginx:latest
 #COPY ./build /var/www
 COPY --from=build /frontend/build /var/www

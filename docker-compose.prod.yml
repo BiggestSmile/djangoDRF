@@ -20,7 +20,7 @@ services:
       context: ./
       dockerfile: docker/prod/backend-django/Dockerfile
     #    command: python manage.py runserver 0.0.0.0:8008
-    command: gunicorn backend.wsgi -b 0.0.0.0:8008
+    command: gunicorn config.wsgi -b 0.0.0.0:8008
     volumes:
       - ./backend:/backend
     ports:
