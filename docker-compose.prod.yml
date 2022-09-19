@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  db:
+    restart: unless-stopped
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  backend-django:
+    container_name: backend-django
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: docker/prod/backend-django/Dockerfile
+    #    command: python manage.py runserver 0.0.0.0:8008
+    command: gunicorn backend.wsgi -b 0.0.0.0:8008
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "8008:8008"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    #      - DJANGO_SETTINGS_MODULE = backend.settings.production
+    depends_on:
+      - db
+
+  backend-nginx:
+    container_name: backend-nginx
+    build:
+      context: ./
+      dockerfile: docker/prod/backend-nginx/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend-django
+
+  frontend-nginx:
+    container_name: frontend-nginx
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: docker/prod/frontend-nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend-nginx
